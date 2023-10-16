@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+<title>Suggest a Restaurant Name</title>
+</head>
+<body>
+	<div class="container">
+    	<div class="row">
+        	<h3 class="text-center"> Suggest a Restaurant Name </h4>
+    	</div>
+		<div class="container" >
+			<div class="card">
+				<div class="card-body">
+					<div class="card-header">
+							<h2 class="text-center">Employee Suggestion</h2>
+						</div>	
+						<div th:if="${success}">
+							<div class="alert alert-success"> <p> Your suggestion updated successfully </p></div>
+						</div>
+					<form method="post" th:action="@{/session/restaurantNameSuggestion/save}" th:object="${restaurantNameSuggestion}">
+						<input type = "hidden" th:field="*{sessionId}"/>
+						<input type = "hidden" th:field="*{empNo}"/>
+						<input type = "hidden" th:field="*{empNo}"/>
+						<div>
+							<label class="control-label"> Employee No.</label>
+							<input type="text" id="empNo" name="empNo" th:field="*{empNo}" disabled class="form-control" />
+						</div>
+		
+						<div>
+							<label class="control-label">Restaurant Name</label>
+							<input type="text" id="restaurantName" name="restaurantName" th:field="*{restaurantName}" required class="form-control" />
+						</div>
+						
+						<div>
+							</br>
+							<button type="submit" name="action" value="save" class="btn btn-primary" th:if="!${success}">Submit</button>
+							<button type="submit" name="action" value="save" class="btn btn-primary" disabled th:if="${success}">Submit</button>
+							<button type="submit" name="action" value="endSession" class="btn btn-primary" th:if="${admin}">End Session</button>
+							<!--<span ><a th:if="${admin}"><b th:href="/session/restaurantNameSuggestion/endSession" End Session> </b> </a></span>-->
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container" >
+	<h4 class="text-center"> Participant's List </h4>
+	<table style="width:80%" border="1" class="table table-striped table-responsive-md">
+		<thead>
+			<tr>
+				<th>Employee No.</th>
+				<th>Restaurant Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="participant:${participantList}">
+				<td th:text="${participant.empNo}"></td>
+				<td th:text="${participant.restaurantName}"></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</body>
+</html>
